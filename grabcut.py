@@ -137,7 +137,7 @@ class App():
             elif k == ord('s'): # save image
                 bar = np.zeros((self.img.shape[0], 5, 3), np.uint8)
                 res = np.hstack((self.img2, bar, self.img, bar, self.output))
-                cv.imwrite('grabcut_output.png', res)
+                cv.imwrite('Saves/grabcut_output.png', res)
                 print(" Result saved as image \n")
             elif k == ord('r'): # reset everything
                 print("resetting \n")
