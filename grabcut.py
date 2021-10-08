@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
 ===============================================================================
 Interactive Image Segmentation using GrabCut algorithm.
@@ -23,12 +24,14 @@ Key 's' - To save the results
 
 # Python 2/3 compatibility
 from __future__ import print_function
-
+# All imports
 import numpy as np
 import cv2 as cv
-
+import os
+from PIL import Image
 import sys
 
+# Main class
 class App():
     BLUE = [255,0,0]        # rectangle color
     RED = [0,0,255]         # PR BG
@@ -72,7 +75,6 @@ class App():
             print(" Now press the key 'n' a few times until no further change \n")
 
         # draw touchup curves
-
         if event == cv.EVENT_LBUTTONDOWN:
             if self.rect_over == False:
                 print("first draw rectangle \n")
@@ -91,15 +93,154 @@ class App():
                 self.drawing = False
                 cv.circle(self.img, (x, y), self.thickness, self.value['color'], -1)
                 cv.circle(self.mask, (x, y), self.thickness, self.value['val'], -1)
+    # Scale function for images with big resolution
+    def scale_image(self,
+                    input_image_path,
+                    width=None,
+                    height=None
+                    ):
+        original_image = Image.open(input_image_path)
+        w, h = original_image.size
+        if (((w > 800) or (h > 800)) and ((h > 800) or (w > 800))):
+            if width and height:
+                max_size = (width, height)
+            elif width:
+                max_size = (width, h)
+            elif height:
+                max_size = (w, height)
+            else:
+                # No width or height specified
+                raise RuntimeError('Width or height required!')
+
+            original_image.thumbnail(max_size, Image.ANTIALIAS)
+            original_image.save('Saves/scaled.jpg')
+
+            scaled_image = Image.open('Saves/scaled.jpg')
+            width, height = scaled_image.size
+            # Create txt
+            my_file = open("AsistFiles\ScaleOrNot.txt", "w+")
+            my_file.write("1")
+            my_file.close()
+            print('The scaled image size is {wide} wide x {height} '
+                  'high'.format(wide=width, height=height))
+        else:
+            print('The original image size is {wide} wide x {height} '
+                  'high'.format(wide=w, height=h))
+            # Create txt
+            my_file = open("AsistFiles\ScaleOrNot.txt", "w+")
+            my_file.write("0")
+            my_file.close()
 
     def run(self):
         # Loading images
         if len(sys.argv) == 2:
             filename = sys.argv[1] # for drawing purposes
         else:
-            print("No input image given\n")
+            print("No input image given \n")
             print("Correct Usage: python grabcut.py <filename> \n")
-            filename = 'Saves/Orbb.jpg'
+            f = open('AsistFiles/FileWay.txt', 'r')
+            filename = f.read()
+            print(filename)
+            f.close()
+            self.scale_image(input_image_path = filename, width = 800, height=800)
+            f = open('AsistFiles/ScaleOrNot.txt', 'r')
+            scalefile = f.read()
+            print(scalefile)
+            zero = "0"
+            # Filename and directory without scale
+            if (scalefile == zero):
+                l = list(filename)
+                size = len(l) - 5
+                sizeoffilename = size
+                filenamecopy = ''
+                slash = "/"
+                while (size > 0):
+                    checkstring = l[size]
+                    if (checkstring == slash):
+                        break
+                    filenamecopy = filenamecopy + l[size]
+                    size -= 1
+                print(filenamecopy)
+                l = list(filenamecopy)
+                size = len(l) - 1
+                sizeofname = size
+                print(len(l))
+                filenamecopy2 = ''
+                while (size >= 0):
+                    filenamecopy2 = filenamecopy2 + l[size]
+                    size -= 1
+                print(filenamecopy2)
+
+                sizeofdirectory = sizeoffilename - sizeofname - 1
+                nameofdirectory = ''
+                l = list(filename)
+                i = 0
+                while (i <= sizeofdirectory):
+                    nameofdirectory = nameofdirectory + l[i]
+                    i += 1
+                testpath = nameofdirectory + "grubcut"
+
+                if os.path.exists(testpath):
+                    if os.path.isdir(testpath):
+                        print('КАТАЛОГ')
+                else:
+                    sizeofdirectory = sizeoffilename - sizeofname - 1
+                    nameofdirectory = ''
+                    l = list(filename)
+                    i = 0
+                    while (i <= sizeofdirectory):
+                        nameofdirectory = nameofdirectory + l[i]
+                        i += 1
+                    print(nameofdirectory)
+                    os.mkdir(nameofdirectory + "grubcut")
+            # Filename and directory with scale
+            else:
+                l = list(filename)
+                size = len(l) - 5
+                sizeoffilename = size
+                filenamecopy = ''
+                slash = "/"
+                while (size > 0):
+                    checkstring = l[size]
+                    if (checkstring == slash):
+                        break
+                    filenamecopy = filenamecopy + l[size]
+                    size -= 1
+                print(filenamecopy)
+                l = list(filenamecopy)
+                size = len(l) - 1
+                sizeofname = size
+                print(len(l))
+                filenamecopy2 = ''
+                while (size >= 0):
+                    filenamecopy2 = filenamecopy2 + l[size]
+                    size -= 1
+                print(filenamecopy2)
+
+                sizeofdirectory = sizeoffilename - sizeofname - 1
+                nameofdirectory = ''
+                l = list(filename)
+                i = 0
+                while (i <= sizeofdirectory):
+                    nameofdirectory = nameofdirectory + l[i]
+                    i += 1
+                testpath = nameofdirectory + "grubcut"
+
+                if os.path.exists(testpath):
+                    if os.path.isdir(testpath):
+                        print('КАТАЛОГ')
+                else:
+                    sizeofdirectory = sizeoffilename - sizeofname - 1
+                    nameofdirectory = ''
+                    l = list(filename)
+                    i = 0
+                    while (i <= sizeofdirectory):
+                        nameofdirectory = nameofdirectory + l[i]
+                        i += 1
+                    print(nameofdirectory)
+                    os.mkdir(nameofdirectory + "grubcut")
+                filename = 'Saves/scaled.jpg'
+
 
         self.img = cv.imread(cv.samples.findFile(filename))
         self.img2 = self.img.copy()                               # a copy of original image
@@ -134,10 +275,17 @@ class App():
                 self.value = self.DRAW_PR_BG
             elif k == ord('3'): # PR_FG drawing
                 self.value = self.DRAW_PR_FG
+            elif k == ord('d'):  # Close all windows
+                cv.DestroyAllWindows()
             elif k == ord('s'): # save image
                 bar = np.zeros((self.img.shape[0], 5, 3), np.uint8)
                 res = np.hstack((self.img2, bar, self.img, bar, self.output))
-                cv.imwrite('Saves/grabcut_output.png', res)
+                cv.imwrite('Saves/' + filenamecopy2 + '_grabcut_stages.png', res)
+                res2 = np.stack(self.output)
+                cv.imwrite('Saves/' + filenamecopy2 + '_grabcut_output.png', res2)
+                testpath = testpath + '/'
+                os.replace('Saves/' + filenamecopy2 + '_grabcut_stages.png', testpath + filenamecopy2 + '_grabcut_stages.png')
+                os.replace('Saves/' + filenamecopy2 + '_grabcut_output.png', testpath + filenamecopy2 + '_grabcut_output.png')
                 print(" Result saved as image \n")
             elif k == ord('r'): # reset everything
                 print("resetting \n")
@@ -165,8 +313,8 @@ class App():
                     import traceback
                     traceback.print_exc()
 
-            mask2 = np.where((self.mask==1) + (self.mask==3), 255, 0).astype('uint8')
-            self.output = cv.bitwise_and(self.img2, self.img2, mask=mask2)
+            mask2 = np.where((self.mask == 1) + (self.mask == 3), 255, 0).astype('uint8')
+            self.output = cv.bitwise_and(self.img2, self.img2, mask = mask2)
 
         print('Done')
 
