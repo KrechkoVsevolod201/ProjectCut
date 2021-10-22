@@ -1,4 +1,8 @@
-from tkinter import *
+from tkinter import *  # Note: lower case "t" in tkinter
+from tkinter import font as tkFont  # for convenience
+root = Tk()
+helv36 = tkFont.Font(family='Helvetica', size=26, weight='bold')
+# you don't have to use Helvetica or bold, this is just an example
 import os
 
 # import filedialog module
@@ -73,8 +77,18 @@ frame = Frame(root)
 frame.pack()
 bottomframe = Frame(root)
 bottomframe.pack( side = BOTTOM )
-redbutton = Button(frame, text = 'Start program', fg ='red', command=startGrubcut)
-redbutton.pack( side = LEFT)
+startRegularProgramButton = Button(frame, text = 'Start program', fg ='red', command=startGrubcut)
+startRegularProgramButton['font'] = helv36
+startRegularProgramButton.pack( side = LEFT)
+
+# Start with history in DATABase
+frame = Frame(root)
+frame.pack()
+bottomframe = Frame(root)
+bottomframe.pack( side = BOTTOM )
+startWithHistoryButton = Button(frame, text = 'Start with history', fg ='red', command=startGrubcut)
+startWithHistoryButton['font'] = helv36
+startWithHistoryButton.pack( side = LEFT)
 
 # File label
 label_file_explorer.pack(side = LEFT)

@@ -2,10 +2,16 @@
 Interactive Image Segmentation using GrabCut algorithm.
 This sample shows interactive image segmentation using grabcut algorithm.
 USAGE:
-    python grabcut.py <filename>
+python grabcut.py <filename>
 README FIRST:
-    Two windows will show up, one for input and one for output.
-    At first, in input window, draw a rectangle around the object using the
+Program can't work with russian letters, before first run
+change your keyboard language, filenames and directories on english language.
+(Python has problems with encodings)
+Firstly press "File" button in context menu.
+Then press "Open" button and select your file.
+Press "Start program" button.
+Two windows will show up, one for input and one for output.
+At first, in input window, draw a rectangle around the object using the
 right mouse button. Then press 'n' to segment the object (once or a few times)
 For any finer touch-ups, you can press any of the keys below and draw lines on
 the areas you want. Then again press 'n' to update the output.
@@ -16,4 +22,5 @@ Key '3' - To select areas of probable foreground
 Key 'n' - To update the segmentation
 Key 'r' - To reset the setup
 Key 's' - To save the results
+Key 'd' - To close all windows
 ===============================================================================
