@@ -23,7 +23,7 @@ class Directory_history():
         fileName = f.read()
         f.close()
         print(fileName)
-        f = open('D:\PycharmProjects\ProjectCut\DATABase\DirectoryHistory.txt', 'a')
+        f = open('D:\PycharmProjects\ProjectCut\AsistFiles\DirectoryHistory.txt', 'a')
         f.write(fileName + ' ' + datetimestr)
         f.close()
         '''
