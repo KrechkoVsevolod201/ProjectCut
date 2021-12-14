@@ -1,8 +1,8 @@
 from datetime import datetime
 
+
 class Directory_history():
     def openAndAppend(self):
-        current_datetime = datetime.now()
         current_datetime = datetime.now()
         year = current_datetime.year
         yearstr = str(year)

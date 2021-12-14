@@ -32,24 +32,23 @@ def create_table(conn, create_table_sql):
 
 
 def main():
-    database = r"D:\PycharmProjects\ProjectCut\DATABase\sqlite\GCHist\debil.db"
+    database = r"D:\PycharmProjects\ProjectCut\DATABase\sqlite\GCHist\Debas.db"
 
-    sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS projects (
+    sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS history (
                                         id integer PRIMARY KEY,
                                         name text NOT NULL,
-                                        begin_date text,
-                                        end_date text
+                                        directory text NOT NULL,
+                                        date text NOT NULL
                                     ); """
 
-    sql_create_tasks_table = """CREATE TABLE IF NOT EXISTS tasks (
+    sql_create_tasks_table = """CREATE TABLE IF NOT EXISTS pictures (
                                     id integer PRIMARY KEY,
-                                    name text NOT NULL,
-                                    priority integer,
-                                    status_id integer NOT NULL,
-                                    project_id integer NOT NULL,
-                                    begin_date text NOT NULL,
-                                    end_date text NOT NULL,
-                                    FOREIGN KEY (project_id) REFERENCES projects (id)
+                                    f_name text NOT NULL,
+                                    date text NOT NULL,
+                                    hist_id integer NOT NULL,
+                                    type integer NOT NULL,
+                                    photo text NOT NULL,
+                                    FOREIGN KEY (hist_id) REFERENCES history (id)
                                 );"""
 
     # create a database connection
